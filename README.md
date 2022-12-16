@@ -1,4 +1,4 @@
-# hacker_rank_studies
+# hacker-rank-studies
 Just my hacker-rank resolutions
 
 # considerations
