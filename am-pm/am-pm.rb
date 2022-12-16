@@ -34,13 +34,17 @@ class HourMap
     end
 end
 
-def timeConversion(s)
+def slice_hour_representation(str)
     init_am_pm = 8
     end_am_pm = 9
-    hour12Format = {
-        am_pm_symbol: s.slice!(init_am_pm..end_am_pm),
-        hour: s.slice!(0..1)
+    {
+        am_pm_symbol: str.slice!(init_am_pm..end_am_pm),
+        hour: str.slice!(0..1)
     }
+end
+
+def timeConversion(s)
+    hour12Format = slice_hour_representation(s)
 
     hour24Format = HourMap.new().to_24_format(hour12Format)
 
