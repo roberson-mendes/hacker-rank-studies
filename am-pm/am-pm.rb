@@ -1,48 +1,56 @@
 class HourMap
-    def convertHour(hour12Format)
+    def to_24_format(hour12Format)
         midDay = "12"
         midNight24Format = "00"
 
         return midNight24Format if midNight?(hour12Format)
-        return hour12Format[:hour] if beforeMidDay?(hour12Format[:beforeAfterMidDay]) || midDay?(hour12Format)
+        return hour12Format[:hour] if beforeMidDay?(hour12Format[:am_pm_symbol]) || midDay?(hour12Format)
         return (midDay.to_i + hour12Format[:hour].to_i)
     end
 
     private
 
-    def beforeMidDay?(beforeAfterMidDay)
-        beforeMidDay = "AM"
-        beforeAfterMidDay == beforeMidDay
-    end
-
-    def midDay?(hour12Format)
-        midDay12Format = {
-            hour: "12",
-            beforeAfterMidDay: "PM"
-        }
-
-        hour12Format == midDay12Format
-    end
-
     def midNight?(hour12Format)
         midNight12Format = {
             hour: "12",
-            beforeAfterMidDay: "AM"
+            am_pm_symbol: "AM"
         }
 
         hour12Format == midNight12Format
     end
+
+    def beforeMidDay?(am_pm_symbol)
+        beforeMidDay = "AM"
+        am_pm_symbol == beforeMidDay
+    end
+
+    def midDay?(hour12Format)"00:40:22"
+        midDay12Format = {
+            hour: "12",
+            am_pm_symbol: "PM"
+        }
+
+        hour12Format == midDay12Format
+    end
 end
 
 def timeConversion(s)
+    init_am_pm = 8
+    end_am_pm = 9
     hour12Format = {
-        beforeAfterMidDay: s.slice!(8..9),
+        am_pm_symbol: s.slice!(init_am_pm..end_am_pm),
         hour: s.slice!(0..1)
     }
 
-    hour24Format = HourMap.new().convertHour(hour12Format)
+    hour24Format = HourMap.new().to_24_format(hour12Format)
 
     s.insert(0, hour24Format.to_s)
 end
 
-puts timeConversion("12:40:22AM")
+def test
+    time_to_convert = "12:40:22AM"
+    expected_result = "00:40:22"
+    puts (timeConversion(time_to_convert) == expected_result)
+end
+
+test
