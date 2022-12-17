@@ -54,3 +54,44 @@ end
 def diagonalDifference(arr)
   (left_diagonal_sum(arr) - right_diagonal_sum(arr)).abs
 end
+
+######################################################################---REFACTOR 2
+def left_diagonal_sum(arr)
+  initial_row = 0
+  final_row = arr[0].size - 1
+  left_diagonal_sum = 0
+
+  sum_diagonal_cells = -> do
+      for i in initial_row..final_row do
+          diagonal_column_index, diagonal_row_index = i, i
+          left_diagonal_sum += arr[diagonal_row_index][diagonal_column_index]
+      end
+
+      left_diagonal_sum
+  end
+
+  sum_diagonal_cells.call()
+end
+
+def right_diagonal_sum(arr)
+  initial_row = 0
+  final_row = arr[0].size - 1
+  right_diagonal_sum = 0
+  right_diagonal_column = arr[0].size - 1
+
+  sum_diagonal_cells = -> do
+      for i in initial_row..final_row do
+          diagonal_row_index = i
+          right_diagonal_sum += arr[diagonal_row_index][right_diagonal_column]
+          right_diagonal_column -= 1
+      end
+
+      right_diagonal_sum
+  end
+
+  sum_diagonal_cells.call()
+end
+
+def diagonalDifference(arr)
+  (left_diagonal_sum(arr) - right_diagonal_sum(arr)).abs
+end
