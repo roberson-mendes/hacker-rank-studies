@@ -5,7 +5,17 @@
 
 class HourMap
     def self.to_24_format(hour_12_format)
-        hour_symbols = slice_hour_symbols(hour_12_format)
+        hour_symbols = slice_hour_symbols!(hour_12_format)
+
+        new_hour = change_hour(hour_symbols)
+        hour_position = 0
+
+        hour_12_format.insert(hour_position, new_hour.to_s)
+    end
+
+    private
+
+    def self.change_hour(hour_symbols)
         mid_night_24_format = "00"
         mid_day_24_format = "12"
         hour = hour_symbols[:hour]
@@ -23,9 +33,7 @@ class HourMap
         end
     end
 
-    private
-
-    def self.slice_hour_symbols(str)
+    def self.slice_hour_symbols!(str)
         init_am_pm_string = 8
         end_am_pm_string = 9
         {
@@ -63,9 +71,7 @@ end
 def timeConversion(s)
     hour_12_format = s
 
-    hour24Format = HourMap.to_24_format(hour_12_format)
-
-    s.insert(0, hour24Format.to_s)
+    HourMap.to_24_format(hour_12_format)
 end
 
 ######################################################################---TESTS
