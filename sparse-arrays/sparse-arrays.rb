@@ -1,4 +1,3 @@
-################################################---VERSION_1
 def countOcurrences(strings)
   ocurrences = Hash.new(0)
   strings.each {|word| ocurrences[word] += 1 }
@@ -19,7 +18,7 @@ def countOcurrencesInBigON(strings, queries)
   result
 end
 
-################################################---VERSION_2
+######################################################################---REFACTOR 1
 def countOcurrencesInBigON2(strings, queries)
   result = Array.new(queries.size, 0)
   countWordInStrings = -> (word) { strings.count(word) }
@@ -32,12 +31,15 @@ def countOcurrencesInBigON2(strings, queries)
   result
 end
 
-################################################---MAIN-METHOD
+#
+# Complete the 'matchingStrings' function below.
+#
+
 def matchingStrings(strings, queries)
   countOcurrencesInBigON2(strings, queries)
 end
 
-################################################---TEST-METHOD
+######################################################################---TESTS
 def test
   strings = %w(aba baba aba xzxb)
   queries = %w(aba xzxb ab)

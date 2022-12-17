@@ -1,4 +1,8 @@
-################################################---VERSION_1
+#
+# Complete the 'flippingBits' function below.
+#
+
+
 def flippingBits(n)
   #create an array to hold the binary representation
   binary_representation = []
@@ -14,7 +18,7 @@ def flippingBits(n)
 end
 
 
-################################################---VERSION_1.1
+######################################################################---REFACTOR 1
 
 def flippingBits(n)
   #create an array to hold the binary representation
@@ -31,7 +35,7 @@ end
 
 flippingBits(9)
 
-################################################---VERSION_2
+######################################################################---REFACTOR 2
 def flip_bits(binary_representation)
   binary_representation.map do |item|
       item == 0 ? 1 : 0
@@ -62,7 +66,7 @@ end
 
 flippingBits(9)
 
-################################################---VERSION_3
+######################################################################---REFACTOR 3
 
 class Binary
   #create the binary representation of number in binary_representation array
