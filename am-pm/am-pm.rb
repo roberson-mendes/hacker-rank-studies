@@ -23,7 +23,7 @@ class HourMap
             when before_mid_day(hour_symbols)
                 hour
             else
-                to_24 = -> (hour_symbols) { mid_day.to_i + hour_symbols.to_i }
+                to_24 = -> (hour) { mid_day_24_format.to_i + hour.to_i }
                 to_24.call(hour_symbols[:hour])
         end
     end
