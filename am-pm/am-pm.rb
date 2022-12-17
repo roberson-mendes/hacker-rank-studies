@@ -1,23 +1,38 @@
+# Given a time in 12-hour AM/PM format, convert it to military (24-hour) time.
+
+# Note: - 12:00:00AM on a 12-hour clock is 00:00:00 on a 24-hour clock.
+# - 12:00:00PM on a 12-hour clock is 12:00:00 on a 24-hour clock.
+
 class HourMap
     def self.to_24_format(hour_12_format)
+        hour_symbols = slice_hour_symbols(hour_12_format)
         mid_night_24_format = "00"
         mid_day_24_format = "12"
-        hour = hour_12_format[:hour]
+        hour = hour_symbols[:hour]
 
-        case hour_12_format
+        case hour_symbols
             when mid_night
                 mid_night_24_format
             when mid_day
                 mid_day_24_format
-            when before_mid_day(hour_12_format)
+            when before_mid_day(hour_symbols)
                 hour
             else
-                to_24 = -> (hour_12_format) { mid_day.to_i + hour_12_format.to_i }
-                to_24.call(hour_12_format[:hour])
+                to_24 = -> (hour_symbols) { mid_day.to_i + hour_symbols.to_i }
+                to_24.call(hour_symbols[:hour])
         end
     end
 
     private
+
+    def self.slice_hour_symbols(str)
+        init_am_pm_string = 8
+        end_am_pm_string = 9
+        {
+            am_pm_symbol: str.slice!(init_am_pm_string..end_am_pm_string),
+            hour: str.slice!(0..1)
+        }
+    end
 
     def self.mid_day
         mid_day_12_format = {
@@ -33,28 +48,27 @@ class HourMap
         }
     end
 
-    def self.before_mid_day(hour_12_format)
-        proc { |hour_12_format| hour_12_format[:am_pm_symbol] == "AM"}
+    def self.before_mid_day(hour_symbols)
+        proc { |hour_symbols| hour_symbols[:am_pm_symbol] == "AM"}
     end
 end
 
-def slice_hour_representation(str)
-    init_am_pm_string = 8
-    end_am_pm_string = 9
-    {
-        am_pm_symbol: str.slice!(init_am_pm_string..end_am_pm_string),
-        hour: str.slice!(0..1)
-    }
-end
+#
+# Complete the 'timeConversion' function below.
+#
+# The function is expected to return a STRING.
+# The function accepts STRING s as parameter.
+#
 
 def timeConversion(s)
-    hour_12_format = slice_hour_representation(s)
+    hour_12_format = s
 
     hour24Format = HourMap.to_24_format(hour_12_format)
 
     s.insert(0, hour24Format.to_s)
 end
 
+######################################################################---TESTS
 def test_mid_night
     time_to_convert = "12:40:22AM"
     expected_result = "00:40:22"
