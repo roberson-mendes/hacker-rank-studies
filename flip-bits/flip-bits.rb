@@ -134,3 +134,10 @@ def test_flipping_bits_4
 end
 
 test_flipping_bits_4
+
+######################################################################---SOLUTION 2
+#instead of do it by brutal force, this solution applies existing ruby functions
+
+def flippingBits_5(n)
+  n.to_s(2).rjust(32, "0").gsub("0", "x").gsub("1", "0").gsub("x", "1").to_i(2)
+end
