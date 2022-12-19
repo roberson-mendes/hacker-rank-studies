@@ -5,6 +5,7 @@
 # The function accepts INTEGER_ARRAY a as parameter.
 #
 
+#n2 solution
 def lonelyinteger(a)
   # Write your code here
   a.each_with_index do |item, index|
@@ -17,6 +18,38 @@ def lonelyinteger(a)
       end
       return item if !have_eql
   end
+end
+
+######################################################################---REFACTOR 1
+def compareEach(item, items_to_compare)
+  have_eql = false
+  items_to_compare.each do |comparing|
+      have_eql = comparing == item
+      break if have_eql
+  end
+  have_eql
+end
+
+def lonelyinteger2(a)
+  # Write your code here
+  a.each_with_index do |item, index|
+      to_compare = a.dup
+      to_compare.delete_at(index)
+
+      have_eql = compareEach(item, to_compare)
+
+      return item if !have_eql
+  end
+end
+
+######################################################################---REFACTOR 2 - SOLUTION 2
+def lonelyinteger3(a)
+  # Write your code here
+  counting_words = Hash.new(0)
+
+  a.each { |item| counting_words[item] += 1}
+
+  counting_words.key(1)
 end
 
 ######################################################################---TESTS
