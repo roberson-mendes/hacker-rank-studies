@@ -1,33 +1,55 @@
-def twoArrays(k, a, b)
-  #para cada elemento de a
-  a_permutation = []
-  b_permutation = []
-  a_size = a.size
+#Permutation.possible_to_permute?(a, b, k)
+  #class Permute
+    #attr a, b, k, a_permutation, b_permutation
 
-  a_size.times do
-    #tire o elemento
-    shifted_a = a.shift
-    b_sums = {}
-    #procure os elementos de b que a+b >= k
-    b.each_with_index do |b_value, b_index|
-        #adicione os elementos em uma lista b_sums
-        b_sums[b_index] = b_value if b_value + shifted_a >= k
-    end
-    #se nao tiver elementos na lista, return "NO"
-    return "NO" if b_sums.size == 0
-    #selecione o menor elemento da lista
-    min_b_to_sum = b_sums.min_by { |key, value| value}
-    #tire o elemento de b
-    min_b_to_sum_index = min_b_to_sum[0]
-    b.delete_at(min_b_to_sum_index)
-    #adicione o elemento de a em a_permutation
-    a_permutation.push(shifted_a)
-    #adicione o elemeno de b em b_permutation
-    min_b_to_sum_value = min_b_to_sum[1]
-    b_permutation.push(min_b_to_sum_value)
+class Permutation
+  def initialize
+    @a_permutation = []
+    @b_permutation = []
   end
 
-  return "YES"
+  def possible_to_permute?(a, b, k)
+    @a = a
+    @b = b
+    @k = k
+
+    has_min_permutation?
+  end
+
+  private
+
+  def has_min_permutation?
+    compute_min_permutation = Proc.new do
+        @a.size.times do
+        shifted_a = @a.shift
+        min_b_sum = find_lower_sum_to(shifted_a)
+        return false if min_b_sum == "NO"
+        permute!(min_b_sum, shifted_a)
+      end
+    end
+
+    compute_min_permutation.call
+
+    return true
+  end
+
+  def find_lower_sum_to(shifted_a)
+    b_sums = @b.each_with_index.map { |value, key| [key, value] }.to_h.select { |key, value| value + shifted_a >= @k}
+    return "NO" if b_sums.size == 0
+    b_sums.min_by { |key, value| value}
+  end
+
+  def permute!(min_b_sum, shifted_a)
+    min_b_sum_index = min_b_sum[0]
+    @b.delete_at(min_b_sum_index)
+    @a_permutation.push(shifted_a)
+    min_b_sum_value = min_b_sum[1]
+    @b_permutation.push(min_b_sum_value)
+  end
+end
+
+def twoArrays(k, a, b)
+  Permutation.new.possible_to_permute?(a, b, k) ? "YES" : "NO"
 end
 
 def test1
