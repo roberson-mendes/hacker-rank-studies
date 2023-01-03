@@ -8,6 +8,7 @@ def serial_average(serial)
   "#{serial_letters}-%.2f" % serial_avarage
 end
 
+######################################################################---TESTS
 def test
   expected = '002-15.00'
 
