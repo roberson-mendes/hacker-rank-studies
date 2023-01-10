@@ -1,14 +1,5 @@
-def process_text(txt_collection)
-  removes_text_spaces = -> do
-      txt_collection.each do |txt|
-          txt.chomp!
-          txt.strip!
-      end
-  end
-
-  removes_text_spaces.call
-
-  txt_collection.join(" ")
+def process_text(texts)
+  texts.map { |text| text.strip }.join(" ")
 end
 
 ######################################################################---TESTS
